@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
@@ -12,9 +13,21 @@ public class PlayerController : MonoBehaviour
     Vector3 prevTargetGridPos;
     Vector3 targetRotation;
 
+    [SerializeField]
+    TMP_Text goalText;
+
+    float timer = 0;
+   
+
     private void Start() {
+        
     
         targetGridPos = Vector3Int.RoundToInt(transform.position);
+    }
+
+    void Update()
+    {
+        timer += Time.deltaTime;
     }
 
     private void FixedUpdate() {
@@ -23,6 +36,14 @@ public class PlayerController : MonoBehaviour
     }
 
     void MovePlayer() {
+
+        Vector3 toDirection = targetGridPos - transform.position;
+
+        bool wallInTheWay = Physics.Raycast(transform.position, toDirection, 1);
+        if (wallInTheWay)
+        {
+            targetGridPos = transform.position;
+        }
 
         if (true) {
             
